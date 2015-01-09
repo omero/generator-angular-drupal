@@ -1,0 +1,11 @@
+{
+  "name": "generator-angular-drupal",
+  "version": "0.1.0",
+  "description": "Scaffold a AngularJS app, to make headless with Drupal Backend",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^0.17.7"
+  }
+}
