@@ -1,11 +1,36 @@
 {
   "name": "generator-angular-drupal",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Scaffold a AngularJS app, to make headless with Drupal Backend",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "omero/generator-angular-drupal",
+  "author": {
+    "name": "Omar Aguirre",
+    "email": "omar.aguirre@pocketlab.mx",
+    "url": "https://github.com/omero"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "app"
+  ],
   "keywords": [
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^0.17.7"
+    "yeoman-generator": "^0.18.0",
+    "chalk": "^0.5.0",
+    "yosay": "^0.3.0"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  },
+  "peerDependencies": {
+    "yo": ">=1.0.0"
   }
 }
