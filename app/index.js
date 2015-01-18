@@ -13,19 +13,125 @@ module.exports = yeoman.generators.Base.extend({
 
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the astounding' + chalk.red('AngularDrupal') + ' generator!'
+      'Welcome to the ' + chalk.cyan('Angular Drupal') + ' generator!'
     ));
-
-    var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+    this.log(chalk.cyan('Out of the box I include some libraries and recommended modules'));
+    var prompts = [
+      {
+        type: 'confirm',
+        name: 'useSassCompass',
+        message: 'Would you like use sass (with Compass)?',
+        default: true
+      },
+      {
+        type: 'list',
+        name: 'styles',
+        message: 'Which styles would you like to use?',
+        choices:[
+          {
+            name: 'Twitter Bootstrap',
+            value: 'twitterBoostrap',
+            default: true
+          },
+          {
+            name: 'Zurb Foundation',
+            value: 'zurbFoundation',
+            default: false
+          }
+        ]
+      },
+      {
+        type: 'checkbox',
+        name: 'modules',
+        message: 'Which modules would you like to use?',
+        choices: [
+          {
+            value: 'animateModule',
+            name: 'angular-animate.js',
+            checked: true
+          }, {
+            value: 'ariaModule',
+            name: 'angular-aria.js',
+            checked: false
+          }, {
+            value: 'cookiesModule',
+            name: 'angular-cookies.js',
+            checked: true
+          }, {
+            value: 'resourceModule',
+            name: 'angular-resource.js',
+            checked: true
+          }, {
+            value: 'messagesModule',
+            name: 'angular-messages.js',
+            checked: false
+          }, {
+            value: 'uiRouteModule',
+            name: 'angular-ui-router.js',
+            checked: true
+          }, {
+            value: 'sanitizeModule',
+            name: 'angular-sanitize.js',
+            checked: true
+          }, {
+            value: 'touchModule',
+            name: 'angular-t' +
+            'ouch.js',
+            checked: true
+          }
+        ]
+      },
+      {
+        type: 'confirm',
+        name: 'backendVersion',
+        message: 'Your Backend server is Drupal 8 ?',
+        default: true
+      },
+      {
+        type: 'string',
+        name: 'backendServer',
+        message: 'What is your Drupal Backend URL (include protocol)?',
+        default: 'http://example.com'
+      },
+      {
+        type: 'string',
+        name: 'backendPort',
+        message: 'What is your Drupal Backend Port?',
+        default: '80'
+      },
+      {
+        type: 'confirm',
+        name: 'backendCORS',
+        message: 'Enable Cross-origin resource sharing (CORS)?',
+        default: true
+      },
+      {
+        when: function (response) {
+        return response.backendCORS;
+        },
+        type: 'string',
+        name: 'backendUser',
+        message: 'What is your Backend user?',
+        default: 'admin'
+      },
+      {
+        when: function (response) {
+        return response.backendCORS;
+        },
+        type: 'password',
+        name: 'backendPassword',
+        message: 'What is your Backend password?',
+      }
+    ];
 
     this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
-
+      this.useSassCompass = props.useSassCompass;
+      this.styles = props.styles;
+      this.modules = props.modules;
+      this.backendVersion = props.backendVersion;
+      this.backendServer = props.backendServer;
+      this.backendPort = props.backendPort;
+      this.backendCORS = props.backendCORS;
       done();
     }.bind(this));
   },
