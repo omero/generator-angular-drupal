@@ -6,6 +6,9 @@ var yosay = require('yosay');
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
+    this.composeWith('backbone', {}, {
+      local: require.resolve('generator-bootstrap')
+    });
   },
 
   prompting: function () {
@@ -27,7 +30,7 @@ module.exports = yeoman.generators.Base.extend({
         type: 'list',
         name: 'styles',
         message: 'Which styles would you like to use?',
-        choices:[
+        choices: [
           {
             name: 'Twitter Bootstrap',
             value: 'twitterBoostrap',
@@ -76,7 +79,7 @@ module.exports = yeoman.generators.Base.extend({
           }, {
             value: 'touchModule',
             name: 'angular-t' +
-            'ouch.js',
+              'ouch.js',
             checked: true
           }
         ]
@@ -107,7 +110,7 @@ module.exports = yeoman.generators.Base.extend({
       },
       {
         when: function (response) {
-        return response.backendCORS;
+          return response.backendCORS;
         },
         type: 'string',
         name: 'backendUser',
@@ -116,7 +119,7 @@ module.exports = yeoman.generators.Base.extend({
       },
       {
         when: function (response) {
-        return response.backendCORS;
+          return response.backendCORS;
         },
         type: 'password',
         name: 'backendPassword',
@@ -132,12 +135,19 @@ module.exports = yeoman.generators.Base.extend({
       this.backendServer = props.backendServer;
       this.backendPort = props.backendPort;
       this.backendCORS = props.backendCORS;
+      this.log();
       done();
     }.bind(this));
   },
 
   writing: {
+
     app: function () {
+      this.mkdir('app');
+      this.mkdir('app/scripts');
+      this.mkdir('app/styles');
+      this.mkdir('app/images');
+      this.mkdir('app/fonts');
       this.fs.copy(
         this.templatePath('_package.json'),
         this.destinationPath('package.json')
@@ -157,7 +167,19 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('jshintrc'),
         this.destinationPath('.jshintrc')
       );
+    },
+
+    git: function () {
+      this.fs.copy(
+        this.templatePath('gitignore'),
+        this.destinationPath('.gitignore')
+      );
+    },
+
+    grunt: function () {
+      this.insertConfig('compass', '{ foo: "bar" }');
     }
+
   },
 
   install: function () {
