@@ -6,9 +6,6 @@ var yosay = require('yosay');
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
-    this.composeWith('backbone', {}, {
-      local: require.resolve('generator-bootstrap')
-    });
   },
 
   prompting: function () {
@@ -21,24 +18,18 @@ module.exports = yeoman.generators.Base.extend({
     this.log(chalk.cyan('Out of the box I include some libraries and recommended modules'));
     var prompts = [
       {
-        type: 'confirm',
-        name: 'useSassCompass',
-        message: 'Would you like use sass (with Compass)?',
-        default: true
-      },
-      {
         type: 'list',
         name: 'styles',
         message: 'Which styles would you like to use?',
         choices: [
           {
+            value: 'bootstrap',
             name: 'Twitter Bootstrap',
-            value: 'twitterBoostrap',
             default: true
           },
           {
+            value: 'foundation',
             name: 'Zurb Foundation',
-            value: 'zurbFoundation',
             default: false
           }
         ]
@@ -128,7 +119,6 @@ module.exports = yeoman.generators.Base.extend({
     ];
 
     this.prompt(prompts, function (props) {
-      this.useSassCompass = props.useSassCompass;
       this.styles = props.styles;
       this.modules = props.modules;
       this.backendVersion = props.backendVersion;
@@ -152,7 +142,7 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('_package.json'),
         this.destinationPath('package.json')
       );
-      this.fs.copy(
+      this.fs.copyTpl(
         this.templatePath('_bower.json'),
         this.destinationPath('bower.json')
       );
@@ -175,11 +165,6 @@ module.exports = yeoman.generators.Base.extend({
         this.destinationPath('.gitignore')
       );
     },
-
-    grunt: function () {
-      this.insertConfig('compass', '{ foo: "bar" }');
-    }
-
   },
 
   install: function () {
