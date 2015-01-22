@@ -4,8 +4,8 @@
 "dependencies": {
 "angular": "^<%= ngVer %>",
 "json3": "^3.3.0",
-"es5-shim": "^4.0.0"<% if (bootstrap) { %>,
-"bootstrap-sass-official": "^3.2.0"<% } %><% if (foundation) { %>,
+"es5-shim": "^4.0.0"<% if (styles == 'bootstrap') { %>,
+"bootstrap-sass-official": "^3.2.0"<% } else { %>,
 "foundation": "^5.5.0"<% } %><% if (animateModule) { %>,
 "angular-animate": "^<%= ngVer %>"<% } %><% if (ariaModule) { %>,
 "angular-aria": "^<%= ngVer %>"<% } %><% if (cookiesModule) { %>,

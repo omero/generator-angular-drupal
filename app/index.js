@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var _s = require('underscore.string');
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
@@ -119,19 +120,31 @@ module.exports = yeoman.generators.Base.extend({
     ];
 
     this.prompt(prompts, function (props) {
+      this.appPath = 'app';
+
+      var hasMod = function (mod) { return props.modules.indexOf(mod) !== -1; };
+      this.animateModule = hasMod('animateModule');
+      this.ariaModule = hasMod('ariaModule');
+      this.cookiesModule = hasMod('cookiesModule');
+      this.messagesModule = hasMod('messagesModule');
+      this.resourceModule = hasMod('resourceModule');
+      this.routeModule = hasMod('routeModule');
+      this.sanitizeModule = hasMod('sanitizeModule');
+      this.touchModule = hasMod('touchModule');
+
+
       this.styles = props.styles;
       this.modules = props.modules;
       this.backendVersion = props.backendVersion;
       this.backendServer = props.backendServer;
       this.backendPort = props.backendPort;
       this.backendCORS = props.backendCORS;
-      this.log();
       done();
     }.bind(this));
+
   },
 
   writing: {
-
     app: function () {
       this.mkdir('app');
       this.mkdir('app/scripts');
@@ -144,7 +157,8 @@ module.exports = yeoman.generators.Base.extend({
       );
       this.fs.copyTpl(
         this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
+        this.destinationPath('bower.json'),
+        this
       );
     },
 
