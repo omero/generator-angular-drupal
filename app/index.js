@@ -146,11 +146,7 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-      this.mkdir('app');
-      this.mkdir('app/scripts');
-      this.mkdir('app/styles');
-      this.mkdir('app/images');
-      this.mkdir('app/fonts');
+      this.directory(this.templatePath('app'),this.destinationPath('app'));
       this.fs.copy(
         this.templatePath('_package.json'),
         this.destinationPath('package.json')
