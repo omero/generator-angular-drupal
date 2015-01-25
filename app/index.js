@@ -19,6 +19,12 @@ module.exports = yeoman.generators.Base.extend({
     this.log(chalk.cyan('Out of the box I include some libraries and recommended modules'));
     var prompts = [
       {
+        type: 'string',
+        name: 'appPath',
+        message: 'Which name would you like starting your app',
+        default: 'app'
+      },
+      {
         type: 'list',
         name: 'styles',
         message: 'Which styles would you like to use?',
@@ -120,8 +126,7 @@ module.exports = yeoman.generators.Base.extend({
     ];
 
     this.prompt(prompts, function (props) {
-      this.appPath = 'app';
-
+      this.appPath = props.appPath;
       var hasMod = function (mod) { return props.modules.indexOf(mod) !== -1; };
       this.animateModule = hasMod('animateModule');
       this.ariaModule = hasMod('ariaModule');
@@ -146,15 +151,20 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-      this.directory(this.templatePath('app'),this.destinationPath('app'));
-      this.fs.copy(
+      this.directory(this.templatePath('app'),this.destinationPath(this.appPath));
+      this.fs.copyTpl(
         this.templatePath('_package.json'),
-        this.destinationPath('package.json')
+        this.destinationPath('package.json'),
+        this
       );
       this.fs.copyTpl(
         this.templatePath('_bower.json'),
         this.destinationPath('bower.json'),
         this
+      );
+      this.fs.copy(
+          this.templatePath('Gruntfile.js'),
+          this.destinationPath('Gruntfile.js')
       );
     },
 
